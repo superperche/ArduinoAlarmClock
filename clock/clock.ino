@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <LiquidCrystal.h>
 
-const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, buzzer = 9;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 int hours = 0;
@@ -9,7 +9,7 @@ int minutes = 0;
 int seconds = 0;
 
 void setup() {
-  // put your setup code here, to run once:
+  pinMode(buzzer, OUTPUT);
   formatPrint(hours);
   lcd.print(":");
   formatPrint(minutes);
@@ -18,7 +18,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   delay(1000); 
   seconds++; 
   if (seconds > 59){
@@ -28,6 +27,9 @@ void loop() {
   if (minutes > 59){
     hours++;
     minutes = 0;
+  }
+  if (seconds > 10) {
+    tone(buzzer, 1000);
   }
   lcd.clear();
   formatPrint(hours);
